@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="TodoList.css">
+</head>
+<body>
+  <div class="wrap">
+    <div id="app">
+      <p>
+        <input type="text" v-model="inputText" @compositionstart="cstartHandler" @compositionend="cendHandler" @keyup.enter="inputHandler">
+      </p>
+        <p>
+          <button @click="show = 'all'">
+            全部
+          </button>
+          <button @click="show = 'open'">
+            未完成
+          </button>
+          <button @click="show = 'done'">
+            完成
+          </button>
+        </p>
+      <ul>
+        <li v-for="item of filterList" :key="item.timestamp">
+          <template v-if="editing === item">
+            <input type="text" v-model="editingText">
+            <button @click="completeHandler">完成</button>
+            <button @click="cancelHandler">取消</button>
+          </template>
+          <template v-else>
+            <input type="checkbox" v-model="item.status">
+            {{ item.content }}
+            <button @click="editHandler(item)">修改</button>
+            <button @click="deleteHandler(item)">刪除</button>
+          </template>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="all.js"></script>
+</body>
+</html>
+
+<!-- compositionstart 預防中文enter事件 -->
